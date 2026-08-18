@@ -1,12 +1,12 @@
 # Retail Business Analytics
 
-Python • SQL • Pandas • Matplotlib • SQLite
+Python • SQL • Pandas • Matplotlib • Power BI • DAX • SQLite
 
 ## Project Overview
 
 Analyzed 9,994 retail transactions to identify sales trends, profitability drivers, regional performance, and the impact of discounts on business profitability.
 
-This project uses Python, Pandas, SQL, and data visualization to transform raw retail data into actionable business insights.
+This project uses Python, Pandas, SQL, data visualization, and Power BI to transform raw retail data into actionable business insights and present key performance metrics through an interactive dashboard.
 
 ## Business Questions
 
@@ -28,6 +28,8 @@ This project investigates several questions:
 - SQL
 - SQLite
 - SQLAlchemy
+- Power BI
+- DAX
 - Git / GitHub
 
 ## Key Findings
@@ -57,7 +59,38 @@ Higher discount levels were associated with significantly lower profitability. D
 
 Tables were the largest source of sub-category losses, generating approximately $17.7K in negative profit. Bookcases were the second-largest loss-producing sub-category at approximately $3.5K.
 
+## Power BI Dashboard
+
+Developed an interactive Power BI dashboard to monitor retail sales and profitability and allow users to explore performance across product categories and geographic regions.
+
+### Dashboard Features
+
+- Total Sales KPI
+- Total Profit KPI
+- Profit Margin KPI
+- Total Quantity Sold KPI
+- Sales by Category
+- Profit by Category
+- Profit by Region
+- Profit Margin by Discount Level
+- Interactive Category slicer
+- Interactive Region slicer
+
+### DAX Measures
+
+A custom DAX measure was created to calculate profit margin dynamically:
+
+```DAX
+Profit Margin = DIVIDE(SUM(Orders[Profit]), SUM(Orders[Sales]))
+```
+
+The dashboard enables interactive filtering to compare business performance across categories and regions and investigate the relationship between discounting and profitability.
+
+The Power BI report file is available in the `powerbi/` directory.
+
 ## Visualizations
+
+Python and Matplotlib were also used to generate static visualizations for the exploratory analysis.
 
 ### Sales by Category
 
@@ -94,6 +127,9 @@ retail-business-analytics/
 │   ├── profit_by_region.png
 │   ├── discount_profitability.png
 │   └── worst_subcategories.png
+│
+├── powerbi/
+│   └── retail_business_dashboard.pbix
 │
 ├── src/
 │   ├── explore_data.py
@@ -137,11 +173,19 @@ python src/visualize_data.py
 python src/run_sql.py
 ```
 
+### 6. Open the Power BI dashboard
+
+Open the following file using Power BI Desktop:
+
+```text
+powerbi/retail_business_dashboard.pbix
+```
+
 ## Future Improvements
 
-- Build an interactive Power BI dashboard
 - Add time-series sales and profit analysis
 - Add customer segmentation analysis
 - Analyze shipping performance
 - Add automated reporting
 - Expand the SQL analysis with more advanced queries
+- Add additional Power BI drill-down and filtering capabilities
