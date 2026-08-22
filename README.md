@@ -4,7 +4,7 @@ Python • SQL • Pandas • Matplotlib • Power BI • DAX • SQLite
 
 ## Project Overview
 
-Analyzed 9,994 retail transactions to identify sales trends, profitability drivers, regional performance, and the impact of discounts on business profitability.
+Analyzed 9,994 retail transactions to identify sales trends, profitability drivers, regional performance, discount impacts, and changes in business performance over time.
 
 This project uses Python, Pandas, SQL, data visualization, and Power BI to transform raw retail data into actionable business insights and present key performance metrics through an interactive dashboard.
 
@@ -18,6 +18,8 @@ This project investigates several questions:
 - How does discounting affect profit margins?
 - Which product sub-categories are losing money?
 - Which sub-categories generate the highest profits?
+- How have sales and profits changed over time?
+- Which months generate the highest sales and profit?
 
 ## Technologies
 
@@ -59,6 +61,14 @@ Higher discount levels were associated with significantly lower profitability. D
 
 Tables were the largest source of sub-category losses, generating approximately $17.7K in negative profit. Bookcases were the second-largest loss-producing sub-category at approximately $3.5K.
 
+### Time-Series Performance
+
+Sales decreased 2.83% in 2015 before increasing 29.47% in 2016 and 20.36% in 2017.
+
+2017 generated the highest annual sales ($733.2K) and profit ($93.4K), while 2016 produced the highest annual profit margin at 13.43%.
+
+November generated the highest monthly sales at approximately $352.5K, while December generated the highest monthly profit at approximately $43.4K.
+
 ## Power BI Dashboard
 
 Developed an interactive Power BI dashboard to monitor retail sales and profitability and allow users to explore performance across product categories and geographic regions.
@@ -90,7 +100,7 @@ The Power BI report file is available in the `powerbi/` directory.
 
 ## Visualizations
 
-Python and Matplotlib were also used to generate static visualizations for the exploratory analysis.
+Python and Matplotlib were used to create visualizations supporting the exploratory, profitability, and time-series analysis.
 
 ### Sales by Category
 
@@ -112,6 +122,18 @@ Python and Matplotlib were also used to generate static visualizations for the e
 
 ![Least Profitable Sub-Categories](outputs/worst_subcategories.png)
 
+### Yearly Sales Trend
+
+![Yearly Sales Trend](outputs/yearly_sales_trend.png)
+
+### Monthly Sales Trend
+
+![Monthly Sales Trend](outputs/monthly_sales_trend.png)
+
+### Yearly Profit Trend
+
+![Yearly Profit Trend](outputs/yearly_profit_trend.png)
+
 ## Project Structure
 
 ```text
@@ -126,7 +148,10 @@ retail-business-analytics/
 │   ├── profit_by_category.png
 │   ├── profit_by_region.png
 │   ├── discount_profitability.png
-│   └── worst_subcategories.png
+│   ├── worst_subcategories.png
+│   ├── yearly_sales_trend.png
+│   ├── monthly_sales_trend.png
+│   └── yearly_profit_trend.png
 │
 ├── powerbi/
 │   └── retail_business_dashboard.pbix
@@ -134,7 +159,8 @@ retail-business-analytics/
 ├── src/
 │   ├── explore_data.py
 │   ├── run_sql.py
-│   └── visualize_data.py
+│   ├── visualize_data.py
+│   └── time_analysis.py
 │
 ├── .gitignore
 └── README.md
@@ -155,7 +181,7 @@ cd retail-business-analytics
 pip install pandas numpy matplotlib seaborn openpyxl sqlalchemy xlrd
 ```
 
-### 3. Run the data analysis
+### 3. Run the exploratory data analysis
 
 ```bash
 python src/explore_data.py
@@ -173,7 +199,13 @@ python src/visualize_data.py
 python src/run_sql.py
 ```
 
-### 6. Open the Power BI dashboard
+### 6. Run the time-series analysis
+
+```bash
+python src/time_analysis.py
+```
+
+### 7. Open the Power BI dashboard
 
 Open the following file using Power BI Desktop:
 
@@ -183,9 +215,9 @@ powerbi/retail_business_dashboard.pbix
 
 ## Future Improvements
 
-- Add time-series sales and profit analysis
 - Add customer segmentation analysis
-- Analyze shipping performance
+- Analyze shipping and fulfillment performance
 - Add automated reporting
 - Expand the SQL analysis with more advanced queries
 - Add additional Power BI drill-down and filtering capabilities
+- Develop forecasting models for future sales performance
