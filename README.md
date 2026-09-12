@@ -4,9 +4,11 @@ Python • SQL • Pandas • Matplotlib • Power BI • DAX • SQLite
 
 ## Project Overview
 
-Analyzed 9,994 retail transactions to identify sales trends, profitability drivers, regional performance, discount impacts, and changes in business performance over time.
+Analyzed 9,994 retail transactions to evaluate sales trends, profitability, customer segments, regional performance, discount behavior, shipping operations, and changes in business performance over time.
 
-This project uses Python, Pandas, SQL, data visualization, and Power BI to transform raw retail data into actionable business insights and present key performance metrics through an interactive dashboard.
+This project uses Python, Pandas, SQL, SQLite, Matplotlib, Power BI, and DAX to transform raw retail data into actionable business insights. The analysis includes exploratory data analysis, intermediate SQL queries, customer and operational analysis, time-series analysis, and a Holt-Winters sales forecasting model.
+
+The project also includes a two-page interactive Power BI report that provides an executive overview and deeper analysis of sales trends, customer profitability, and shipping performance.
 
 ## Business Questions
 
@@ -20,6 +22,10 @@ This project investigates several questions:
 - Which sub-categories generate the highest profits?
 - How have sales and profits changed over time?
 - Which months generate the highest sales and profit?
+- Which customer segments generate the most profit and highest profit margins?
+- How does shipping mode affect order-to-ship time?
+- Which shipping methods are used most frequently?
+- Can historical sales trends and seasonality be used to forecast future monthly sales?
 
 ## Technologies
 
@@ -32,6 +38,8 @@ This project investigates several questions:
 - SQLAlchemy
 - Power BI
 - DAX
+- Statsmodels
+- Scikit-learn
 - Git / GitHub
 
 ## Key Findings
@@ -69,11 +77,37 @@ Sales decreased 2.83% in 2015 before increasing 29.47% in 2016 and 20.36% in 201
 
 November generated the highest monthly sales at approximately $352.5K, while December generated the highest monthly profit at approximately $43.4K.
 
+### Customer Performance
+
+The Consumer segment generated the highest total sales ($1.16M) and total profit ($134.1K).
+
+Home Office produced the highest profit margin at 14.03%, followed by Corporate at 13.03% and Consumer at 11.55%. This shows that the segment generating the most total profit was not necessarily the most profitable relative to sales.
+
+### Shipping & Operations
+
+Standard Class was the most frequently used shipping mode with 2,994 unique orders, followed by Second Class (964), First Class (787), and Same Day (264).
+
+Average order-to-ship time varied significantly by shipping mode. Standard Class averaged 5.01 days, Second Class 3.24 days, First Class 2.18 days, and Same Day 0.04 days.
+
+First Class produced the highest profit margin among shipping modes at approximately 13.93%, although the analysis does not establish that shipping speed caused differences in profitability.
+
+### Sales Forecasting
+
+A Holt-Winters Exponential Smoothing model was developed using monthly sales data to capture historical trend and annual seasonality.
+
+The model was trained on 2014–2016 sales and evaluated against actual 2017 sales. It achieved a Mean Absolute Error (MAE) of approximately $11.5K per month and a Mean Absolute Percentage Error (MAPE) of 22.59%.
+
+After evaluation, the model was retrained using all available 2014–2017 data to generate a 12-month sales forecast for 2018. The forecast is intended as a baseline demonstration of time-series forecasting rather than a production-level prediction.
+
 ## Power BI Dashboard
 
-Developed an interactive Power BI dashboard to monitor retail sales and profitability and allow users to explore performance across product categories and geographic regions.
+Developed a two-page interactive Power BI report to monitor overall retail performance and provide deeper analysis of sales trends, customer profitability, and shipping operations.
+
+The Executive Overview provides high-level KPIs and profitability analysis, while the Business Insights page focuses on time-series trends, customer segments, and shipping performance.
 
 ### Dashboard Features
+
+**Executive Overview**
 
 - Total Sales KPI
 - Total Profit KPI
@@ -83,8 +117,17 @@ Developed an interactive Power BI dashboard to monitor retail sales and profitab
 - Profit by Category
 - Profit by Region
 - Profit Margin by Discount Level
-- Interactive Category slicer
-- Interactive Region slicer
+- Interactive Category and Region slicers
+
+**Business Insights**
+
+- Monthly Sales Trend
+- Monthly Profit Trend
+- Profit by Customer Segment
+- Profit Margin by Customer Segment
+- Orders by Shipping Mode
+- Average Order-to-Ship Time by Shipping Mode
+- Interactive Shipping Mode slicer
 
 ### DAX Measures
 
@@ -94,13 +137,19 @@ A custom DAX measure was created to calculate profit margin dynamically:
 Profit Margin = DIVIDE(SUM(Orders[Profit]), SUM(Orders[Sales]))
 ```
 
-The dashboard enables interactive filtering to compare business performance across categories and regions and investigate the relationship between discounting and profitability.
+A calculated column was also created to measure the number of days between the order date and ship date:
+
+```DAX
+Shipping Days = DATEDIFF(Orders[Order Date], Orders[Ship Date], DAY)
+```
+
+The dashboard enables interactive filtering to compare business performance across categories, regions, customer segments, and shipping modes.
 
 The Power BI report file is available in the `powerbi/` directory.
 
 ## Visualizations
 
-Python and Matplotlib were used to create visualizations supporting the exploratory, profitability, and time-series analysis.
+Python and Matplotlib were used to create visualizations supporting the exploratory, profitability, time-series, customer, shipping, and forecasting analyses.
 
 ### Sales by Category
 
@@ -134,6 +183,22 @@ Python and Matplotlib were used to create visualizations supporting the explorat
 
 ![Yearly Profit Trend](outputs/yearly_profit_trend.png)
 
+### Profit by Customer Segment
+
+![Profit by Customer Segment](outputs/profit_by_customer_segment.png)
+
+### Average Shipping Time by Mode
+
+![Average Shipping Time by Mode](outputs/shipping_time_by_mode.png)
+
+### Actual vs Predicted Sales
+
+![Actual vs Predicted Sales](outputs/actual_vs_predicted_sales.png)
+
+### Monthly Sales Forecast
+
+![Monthly Sales Forecast](outputs/monthly_sales_forecast.png)
+
 ## Project Structure
 
 ```text
@@ -151,7 +216,12 @@ retail-business-analytics/
 │   ├── worst_subcategories.png
 │   ├── yearly_sales_trend.png
 │   ├── monthly_sales_trend.png
-│   └── yearly_profit_trend.png
+│   ├── yearly_profit_trend.png
+│   ├── profit_by_customer_segment.png
+│   ├── shipping_time_by_mode.png
+│   ├── actual_vs_predicted_sales.png
+│   ├── monthly_sales_forecast.png
+│   └── 2018_sales_forecast.csv
 │
 ├── powerbi/
 │   └── retail_business_dashboard.pbix
@@ -160,7 +230,10 @@ retail-business-analytics/
 │   ├── explore_data.py
 │   ├── run_sql.py
 │   ├── visualize_data.py
-│   └── time_analysis.py
+│   ├── time_analysis.py
+│   ├── customer_analysis.py
+│   ├── shipping_analysis.py
+│   └── sales_forecast.py
 │
 ├── .gitignore
 └── README.md
@@ -178,7 +251,7 @@ cd retail-business-analytics
 ### 2. Install dependencies
 
 ```bash
-pip install pandas numpy matplotlib seaborn openpyxl sqlalchemy xlrd
+pip install pandas numpy matplotlib seaborn openpyxl sqlalchemy xlrd statsmodels scikit-learn
 ```
 
 ### 3. Run the exploratory data analysis
@@ -205,7 +278,25 @@ python src/run_sql.py
 python src/time_analysis.py
 ```
 
-### 7. Open the Power BI dashboard
+### 7. Run the customer analysis
+
+```bash
+python src/customer_analysis.py
+```
+
+### 8. Run the shipping analysis
+
+```bash
+python src/shipping_analysis.py
+```
+
+### 9. Run the sales forecasting analysis
+
+```bash
+python src/sales_forecast.py
+```
+
+### 10. Open the Power BI dashboard
 
 Open the following file using Power BI Desktop:
 
@@ -215,9 +306,9 @@ powerbi/retail_business_dashboard.pbix
 
 ## Future Improvements
 
-- Add customer segmentation analysis
-- Analyze shipping and fulfillment performance
-- Add automated reporting
-- Expand the SQL analysis with more advanced queries
-- Add additional Power BI drill-down and filtering capabilities
-- Develop forecasting models for future sales performance
+- Add automated reporting and scheduled dashboard refresh workflows
+- Incorporate external business factors such as promotions, holidays, and economic conditions into forecasting models
+- Expand forecasting with additional models and compare performance using multiple evaluation metrics
+- Add more advanced Power BI drill-through pages and detailed product-level analysis
+- Build a more formal data pipeline for cleaning, storing, and refreshing new retail data
+- Add additional customer-level analysis to identify purchasing patterns and higher-value customer groups
